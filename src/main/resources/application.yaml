@@ -1,0 +1,56 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: hmdp
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hmdp?useSSL=false&serverTimezone=UTC
+    username: root
+    password: 88888888
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 10
+        min-idle: 1
+        time-between-eviction-runs: 10s
+    timeout: 5000
+  jackson:
+    default-property-inclusion: non_null # JSON处理时忽略非空字段
+  mail:
+    host: smtp.163.com
+    protocol: smtps
+    default-encoding: UTF-8
+    username: 15813216340@163.com
+    password: FSTBICUUHLPMHIPQ
+    test-connection: true
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+    port: 465
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    virtual-host: /dianping
+    username: dianping
+    password: 123456
+    listener:
+      simple:
+        prefetch: 1
+        acknowledge-mode: auto
+        retry:
+          enabled: true   #开启重试机制
+          max-attempts: 3   #最大重试次数
+mybatis-plus:
+  type-aliases-package: com.hmdp.entity # 别名扫描包
+logging:
+  level:
+    com.hmdp: debug
