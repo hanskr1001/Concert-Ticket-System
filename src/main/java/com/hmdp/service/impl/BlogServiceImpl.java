@@ -35,7 +35,31 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
     private IUserService userService;
 
     @Resource
+    private IBlogService blogService;
+
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Override
+    public Result saveBlog(Blog blog) {
+        // 获取登录用户
+        UserDTO user = UserHolder.getUser();
+        blog.setUserId(user.getId());
+
+        String title = blog.getTitle();
+        String content = blog.getContent();
+
+        if(title == null || title.equals("")){
+            return Result.fail("标题不能为空！");
+        } else if(content == null || content.equals("")){
+            return Result.fail("内容不能为空");
+        }
+
+        // 保存探店博文
+        blogService.save(blog);
+        // 返回id
+        return Result.ok(blog.getId());
+    }
 
     @Override
     public Result queryBlog(Long id) {
