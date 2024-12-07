@@ -49,9 +49,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
         String title = blog.getTitle();
         String content = blog.getContent();
 
-        if(title == null || title.equals("")){
+        if(title == null || title.isEmpty()){
             return Result.fail("标题不能为空！");
-        } else if(content == null || content.equals("")){
+        } else if(content == null || content.isEmpty()){
             return Result.fail("内容不能为空");
         }
 
@@ -125,11 +125,6 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
         if(ids.isEmpty()){
             return Result.ok();
         }
-        /*List<UserDTO> userDTOS = userService.listByIds(ids)
-                .stream()
-                .map(user -> BeanUtil.copyProperties(user, UserDTO.class))
-                .collect(Collectors.toList());*/
-
         //保证点赞顺序
         List<UserDTO> userDTOS = new ArrayList<>();
         for(Long userId:ids){
