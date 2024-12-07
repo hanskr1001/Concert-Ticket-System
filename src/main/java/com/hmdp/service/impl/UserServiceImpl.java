@@ -63,6 +63,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public Result login(LoginFormDTO loginForm, HttpSession session) {
         //原代码
         String phone = loginForm.getPhone();
+
+        if(phone == null){
+            return Result.fail("手机号不能为空！");
+        }
+
         if(RegexUtils.isPhoneInvalid(phone)){
             return Result.fail("手机号无效!");
         }
@@ -70,6 +75,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         String cachecode = stringRedisTemplate.opsForValue().get(LOGIN_CODE_KEY + phone);
 
         String code = loginForm.getCode();
+
+        if(cachecode == null){
+            return Result.fail("未发送验证码！");
+        }
 
         if(code == null || !cachecode.equals(code)){
             return Result.fail("验证码错误!");
